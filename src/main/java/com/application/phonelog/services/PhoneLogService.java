@@ -1,0 +1,30 @@
+package com.application.phonelog.services;
+
+import com.application.phonelog.model.PhoneLog;
+import com.application.phonelog.repository.PhoneLogRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PhoneLogService {
+
+    private final PhoneLogRepository phoneLogRepository;
+
+    public PhoneLogService(PhoneLogRepository phoneLogRepository) {
+        this.phoneLogRepository = phoneLogRepository;
+    }
+
+    public List<PhoneLog> getAllPhoneLogs(){
+        return phoneLogRepository.findAll();
+    }
+
+    public PhoneLog getPhoneLogById(long id){
+        return phoneLogRepository.findById(id).orElseThrow();
+    }
+
+    public void addPhoneLog(PhoneLog phoneLog){
+        phoneLogRepository.save(phoneLog);
+    }
+
+}

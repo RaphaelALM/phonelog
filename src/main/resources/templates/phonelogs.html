@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone logs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<style>
+</style>
+<body>
+
+<!--Navigation bar-->
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/phonelog}">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/phonelog/newlog}">追加</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <h1>Phone logs</h1>
+        <div>
+            <div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>ID</th>
+                        <th>日時</th>
+                        <th>会社名</th>
+                        <th>電話番号</th>
+                        <th>誰宛</th>
+                        <th>詳細</th>
+                        <th>操作</th>
+
+                    </tr>
+                    <th:block th:each="log : ${phonelogs}">
+                        <tr>
+                            <td th:text="${log.id}"></td>
+                            <td th:text="${log.callDate + ' (' + log.callTime} + ')'"></td>
+                            <td th:text="${log.companyName}"></td>
+                            <td th:text="${log.phoneNumber}"></td>
+                            <td th:text="${log.recipient}"></td>
+                            <td>
+                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn">移動</a>
+                            </td>
+                            <td>
+                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-primary" >更新</a>
+                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-danger">削除</a>
+                            </td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--APAGAR DEPOIS-->
+<!--    <h1>Phone logs</h1>-->
+<!--<div>-->
+<!--    <a th:href="@{/phonelog/newlog}" class="btn">追加</a>-->
+
+<!--        <div>-->
+<!--            <table class="table table-striped">-->
+<!--                <tr>-->
+<!--                    <th>ID</th>-->
+<!--                    <th>日時</th>-->
+<!--                    <th>会社名</th>-->
+<!--                    <th>電話番号</th>-->
+<!--                    <th>誰宛</th>-->
+<!--                    <th>詳細</th>-->
+<!--                    <th>操作</th>-->
+
+<!--                </tr>-->
+<!--                <th:block th:each="log : ${phonelogs}">-->
+<!--                <tr>-->
+<!--                    <td th:text="${log.id}"></td>-->
+<!--                    <td th:text="${log.callDate + ' (' + log.callTime} + ')'"></td>-->
+<!--                    <td th:text="${log.companyName}"></td>-->
+<!--                    <td th:text="${log.phoneNumber}"></td>-->
+<!--                    <td th:text="${log.recipient}"></td>-->
+<!--                    <td>-->
+<!--                        <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn">移動</a>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-primary" >更新</a>-->
+<!--                        <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-danger">削除</a>-->
+<!--                    </td>-->
+
+
+<!--                </tr>-->
+
+
+<!--                </th:block>-->
+<!--        </table>-->
+<!--        </div>-->
+
+
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
