@@ -10,41 +10,49 @@
 
 </style>
 <body>
-<h1>登録フォーム</h1>
-<div>
-  <form th:action="@{/phonelog}" method="post">
-    <label>日にち</label><br>
-    <input type="date" name="callDate" id="callDate"><br>
 
-    <label>時間</label><br>
-    <input type="time" name="callTime" id="callTime"><br>
-
-    <label>電話番号</label><br>
-    <input type="text" name="phoneNumber" id="phoneNumber"><br>
-
-    <label>会社名</label><br>
-    <input type="text" name="companyName" id="companyName"><br>
-
-    <label>名前</label><br>
-    <input type="text" name="callerName" id="callerName"><br>
-
-    <label>あて先</label><br>
-    <input type="text" name="recipient" id="recipient"><br>
-
-    <label>内容</label><br>
-    <input type="text" name="description" id="description" style="width: 300px; height: 60px"><br>
-
-    <label>受けた人</label><br>
-    <input type="text" name="receiver" id="receiver"><br>
-
-    <button type="submit">追加</button>
-  </form>
-
-  <div>
-
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" th:href="@{/phonelog}">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a th:href="@{/phonelog}">Home</a></li>
+      <li class="active"><a th:href="@{/phonelog/newlog}">Add</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
   </div>
+</nav>
 
-</div>
+    <h1>登録フォーム</h1>
+    <form th:action="@{/phonelog}" method="post">
+      <label>日にち</label><br>
+      <input type="date" name="callDate" id="callDate"><br>
+
+      <label>時間</label><br>
+      <input type="time" name="callTime" id="callTime"><br>
+
+      <label>電話番号</label><br>
+      <input type="text" name="phoneNumber" id="phoneNumber"><br>
+
+      <label>会社名</label><br>
+      <input type="text" name="companyName" id="companyName"><br>
+
+      <label>名前</label><br>
+      <input type="text" name="callerName" id="callerName"><br>
+
+      <label>あて先</label><br>
+      <input type="text" name="recipient" id="recipient"><br>
+
+      <label>内容</label><br>
+      <input type="text" name="description" id="description" style="width: 300px; height: 60px"><br>
+
+      <label>受けた人</label><br>
+      <input type="text" name="receiver" id="receiver"><br>
+
+      <button type="submit">追加</button>
+    </form>
 
 </body>
 </html>
