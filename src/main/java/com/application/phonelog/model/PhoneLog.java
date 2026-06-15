@@ -3,6 +3,7 @@ package com.application.phonelog.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class PhoneLog {
     private Long id;
 
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "telp_date")
     private LocalDate callDate;
 

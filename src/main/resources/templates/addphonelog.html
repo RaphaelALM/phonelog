@@ -1,57 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <title>Phone log </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 </head>
-<style>
-
-</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <body>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" th:href="@{/phonelog}">WebSiteName</a>
+    <a class="navbar-brand" th:href="@{/phonelog}">
+      <img src="/alphalogo.svg" alt="Logo"  class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" aria-current="page" th:href="@{/phonelog}">Home</a>
+        <a class="nav-link active" th:href="@{/phonelog/newlog}">Add</a>
+        <a class="nav-link" th:href="@{/phonelog/1}">test</a>
+        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+      </div>
     </div>
-    <ul class="nav navbar-nav">
-      <li><a th:href="@{/phonelog}">Home</a></li>
-      <li class="active"><a th:href="@{/phonelog/newlog}">Add</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>
   </div>
 </nav>
+    <br>
+      <h1 style="text-align: center">登録フォーム</h1>
+    <br>
 
-    <h1>登録フォーム</h1>
     <form th:action="@{/phonelog}" method="post">
-      <label>日にち</label><br>
-      <input type="date" name="callDate" id="callDate"><br>
 
-      <label>時間</label><br>
-      <input type="time" name="callTime" id="callTime"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">日時</span>
+        <input type="date" class="form-control" aria-describedby="basic-addon1" name="callDate" id="callDate">
+        <input type="time" class="form-control" aria-describedby="basic-addon1" name="callTime" id="callTime">
+      </div>
 
-      <label>電話番号</label><br>
-      <input type="text" name="phoneNumber" id="phoneNumber"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">電話番号</span>
+        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"><br>
+      </div>
 
-      <label>会社名</label><br>
-      <input type="text" name="companyName" id="companyName"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">所属</span>
+        <input type="text" class="form-control" name="companyName" id="companyName" placeholder="会社名">
+        <input type="text" class="form-control" name="callerName" id="callerName" placeholder="名前">
+      </div>
 
-      <label>名前</label><br>
-      <input type="text" name="callerName" id="callerName"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon4">宛先</span>
+        <input type="text" class="form-control" name="recipient" id="recipient"><br>
+      </div>
 
-      <label>あて先</label><br>
-      <input type="text" name="recipient" id="recipient"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon5">内容</span>
+        <textarea class="form-control" name="description" id="description" rows="4"></textarea>
+      </div>
 
-      <label>内容</label><br>
-      <input type="text" name="description" id="description" style="width: 300px; height: 60px"><br>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon6">受けた人</span>
+        <input type="text" class="form-control" name="receiver" id="receiver"><br>
+      </div>
 
-      <label>受けた人</label><br>
-      <input type="text" name="receiver" id="receiver"><br>
+      <button type="submit" class="btn btn-success">追加</button>
 
-      <button type="submit">追加</button>
+
+<!--      <label>日にち</label><br>-->
+<!--      <input type="date" class="form-control" name="callDate" id="callDate"><br>-->
+
+<!--      <label>時間</label><br>-->
+<!--      <input type="time" name="callTime" id="callTime"><br>-->
+
+<!--      <label>電話番号</label><br>-->
+<!--      <input type="tel" name="phoneNumber" id="phoneNumber"><br>-->
+
+<!--      <label>会社名</label><br>-->
+<!--      <input type="text" name="companyName" id="companyName"><br>-->
+
+<!--      <label>名前</label><br>-->
+<!--      <input type="text" name="callerName" id="callerName"><br>-->
+
+<!--      <label>あて先</label><br>-->
+<!--      <input type="text" name="recipient" id="recipient"><br>-->
+
+<!--      <label>内容</label><br>-->
+<!--      <textarea class="form-control" name="description" id="description" rows="4"></textarea>-->
+
+<!--      <label>受けた人</label><br>-->
+<!--      <input type="text" name="receiver" id="receiver"><br>-->
+
+
     </form>
 
 </body>

@@ -27,4 +27,7 @@ public class PhoneLogService {
         phoneLogRepository.save(phoneLog);
     }
 
+    public void deleteLog(Long id) {
+        phoneLogRepository.deleteById(id);
+    }
 }

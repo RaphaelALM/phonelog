@@ -50,4 +50,34 @@ public class PhoneLogController {
         phoneLogService.addPhoneLog(phoneLog);
         return "redirect:/phonelog";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model){
+        PhoneLog phoneLog = phoneLogService.getPhoneLogById(id);
+
+        System.out.println("CALLDATE = " + phoneLog.getCallDate());
+
+        model.addAttribute("phoneLog", phoneLog);
+        return "edit";
+    }
+
+    @PostMapping("/update")
+    public String updateLog(@ModelAttribute PhoneLog phoneLog) {
+
+        PhoneLog existing = phoneLogService.getPhoneLogById(phoneLog.getId());
+
+        phoneLog.setEntryDate(existing.getEntryDate());
+
+        phoneLogService.addPhoneLog(phoneLog);
+
+        return "redirect:/phonelog";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteLog(@PathVariable Long id){
+        phoneLogService.deleteLog(id);
+        return "redirect:/phonelog";
+    }
+
+
 }

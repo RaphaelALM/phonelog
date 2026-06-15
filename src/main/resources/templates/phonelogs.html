@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>Phone logs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<style>
-</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <body>
-
-<!--Navigation bar-->
-<div class="card text-center">
-    <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <a class="nav-link active" th:href="@{/phonelog}">HOME</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/phonelog/newlog}">追加</a>
-            </li>
-            <li class="nav-item">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/phonelog}">
+            <img src="/alphalogo.svg" alt="Logo"  class="d-inline-block align-text-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" th:href="@{/phonelog}">Home</a>
+                <a class="nav-link" th:href="@{/phonelog/newlog}">Add</a>
+                <a class="nav-link" th:href="@{/phonelog/1}">test</a>
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <h1>Phone logs</h1>
+</nav>
+        <br>
+            <h1 style="text-align: center">履歴</h1>
+        <br>
         <div>
             <div>
                 <table class="table table-striped">
@@ -47,18 +49,17 @@
                             <td th:text="${log.phoneNumber}"></td>
                             <td th:text="${log.recipient}"></td>
                             <td>
-                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn">移動</a>
+                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-light">移動</a>
                             </td>
                             <td>
-                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-primary" >更新</a>
-                                <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-danger">削除</a>
+                                <a th:href="@{/phonelog/{id}/edit(id=${log.id})}" class="btn btn-outline-primary">更新</a>
+                                <a th:href="@{/phonelog/{id}/delete(id=${log.id})}" class="btn btn-outline-danger">削除</a>
                             </td>
                         </tr>
                     </th:block>
                 </table>
             </div>
         </div>
-    </div>
 </div>
 
 </body>

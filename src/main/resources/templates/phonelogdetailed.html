@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>Phone log </title>
@@ -7,31 +7,18 @@
 
 </head>
 <style>
-    table {
-      border-collapse: collapse;
-      border: 2px solid rgb(140 140 140);
-      font-family: sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-    }
-
-    th,
-    td {
-      border: 1px solid rgb(160 160 160);
-      padding: 8px 10px;
-    }
-
-    td:last-of-type {
-      text-align: center;
-    }
 
 </style>
 <body>
-<h1>Phone logs</h1>
+
+<br>
+<h1 style="text-align: center">Phone log</h1>
+<br>
+
 <div>
 
         <div>
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
                     <th>ID</th>
                     <th>日時</th>
@@ -47,7 +34,6 @@
                 <tr>
                     <td th:text="${phonelogdetailed.id}"></td>
                     <td th:text="${phonelogdetailed.callDate + ' (' + phonelogdetailed.callTime} + ')'"></td>
-<!--                    <td th:text="${phonelogdetailed.callTime}"></td>-->
                     <td th:text="${phonelogdetailed.companyName}"></td>
                     <td th:text="${phonelogdetailed.phoneNumber}"></td>
                     <td th:text="${phonelogdetailed.callerName}"></td>
