@@ -24,8 +24,14 @@ public class PhoneLogController {
 
 
     @GetMapping
-    public String getPhoneLogs(Model model){
-        List<PhoneLog> phonelogs = phoneLogService.getAllPhoneLogs();
+    public String getPhoneLogs(@RequestParam(required = false) String keyword, Model model){
+        List<PhoneLog> phonelogs;
+
+        if (keyword != null && !keyword.isBlank()){
+            phonelogs =  phoneLogService.findByKeyword(keyword);
+        } else {
+            phonelogs = phoneLogService.getAllPhoneLogs();
+        }
         model.addAttribute("phonelogs", phonelogs);
         return "phonelogs";
     }

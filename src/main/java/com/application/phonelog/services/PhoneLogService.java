@@ -2,6 +2,7 @@ package com.application.phonelog.services;
 
 import com.application.phonelog.model.PhoneLog;
 import com.application.phonelog.repository.PhoneLogRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,11 @@ public class PhoneLogService {
     }
 
     public List<PhoneLog> getAllPhoneLogs(){
-        return phoneLogRepository.findAll();
+        return phoneLogRepository.findAll(Sort.by("callDate").descending());
+    }
+
+    public List<PhoneLog> findByKeyword(String keyword){
+        return phoneLogRepository.search(keyword);
     }
 
     public PhoneLog getPhoneLogById(long id){

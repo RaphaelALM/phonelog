@@ -22,32 +22,47 @@
                 <a class="nav-link" th:href="@{/phonelog/1}">test</a>
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </div>
+
         </div>
     </div>
 </nav>
         <br>
             <h1 style="text-align: center">履歴</h1>
         <br>
+
+<!--        search bar -->
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" name="keyword" th:value="${keyword}"/>
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <br>
+
+
+
         <div>
             <div>
                 <table class="table table-striped">
                     <tr>
-                        <th>ID</th>
                         <th>日時</th>
                         <th>会社名</th>
                         <th>電話番号</th>
-                        <th>誰宛</th>
+                        <th>宛先</th>
+                        <th>受けた人</th>
                         <th>詳細</th>
                         <th>操作</th>
 
                     </tr>
                     <th:block th:each="log : ${phonelogs}">
                         <tr>
-                            <td th:text="${log.id}"></td>
                             <td th:text="${log.callDate + ' (' + log.callTime} + ')'"></td>
                             <td th:text="${log.companyName}"></td>
                             <td th:text="${log.phoneNumber}"></td>
                             <td th:text="${log.recipient}"></td>
+                            <td th:text="${log.receiver}"></td>
                             <td>
                                 <a th:href="@{/phonelog/{id}(id=${log.id})}" class="btn btn-outline-light">移動</a>
                             </td>
