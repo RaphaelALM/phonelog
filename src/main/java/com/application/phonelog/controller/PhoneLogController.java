@@ -3,10 +3,17 @@ package com.application.phonelog.controller;
 
 import com.application.phonelog.model.PhoneLog;
 import com.application.phonelog.services.PhoneLogService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,19 +29,49 @@ public class PhoneLogController {
         this.phoneLogService = phoneLogService;
     }
 
-
+    // Get phone logs
     @GetMapping
     public String getPhoneLogs(@RequestParam(required = false) String keyword, Model model){
-        List<PhoneLog> phonelogs;
 
-        if (keyword != null && !keyword.isBlank()){
-            phonelogs =  phoneLogService.findByKeyword(keyword);
-        } else {
-            phonelogs = phoneLogService.getAllPhoneLogs();
-        }
-        model.addAttribute("phonelogs", phonelogs);
+        model.addAttribute("phonelogs", getPhoneLogs(keyword));
+        model.addAttribute("keyword", keyword);
         return "phonelogs";
     }
+
+    // CSV File
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) String keyword) throws IOException {
+
+        List<PhoneLog> logs = getPhoneLogs(keyword);
+
+        StringBuilder csv = new StringBuilder();
+
+        // for Excel to identify UTF-8 correctly
+        csv.append("\uFEFF");
+        csv.append("ID,日付,時間,会社名,電話番号,名前,誰宛,内容,受けた人,入力日時\n");
+
+        for (PhoneLog log : logs) {
+            csv.append(log.getId()).append(",");
+            csv.append(log.getCallDate()).append(",");
+            csv.append(log.getCallTime()).append(",");
+            csv.append(log.getCompanyName()).append(",");
+            csv.append(log.getPhoneNumber()).append(",");
+            csv.append(log.getCallerName()).append(",");
+            csv.append(log.getRecipient()).append(",");
+            csv.append(log.getDescription().replaceAll("\\R", " ")).append(",");
+            csv.append(log.getReceiver()).append(",");
+            csv.append(log.getEntryDate()).append("\n");
+        }
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=phonelogs.csv"
+                )
+                .contentType(MediaType.parseMediaType("text/csv; charset=UTF-8"))
+                .body(csv.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
 
     @GetMapping(value = "/{id}")
     public String getPhoneLogById(Model model, @PathVariable Long id){
@@ -43,7 +80,7 @@ public class PhoneLogController {
         return "phonelogdetailed";
     }
 
-    @GetMapping("newlog")
+    @GetMapping("/newlog")
     public String showAddForm(){
         return "addphonelog.html";
     }
@@ -83,6 +120,15 @@ public class PhoneLogController {
     public String deleteLog(@PathVariable Long id){
         phoneLogService.deleteLog(id);
         return "redirect:/phonelog";
+    }
+
+
+    // Check keyword and get list function
+    private List<PhoneLog> getPhoneLogs(String keyword){
+        if (keyword != null && !keyword.isBlank()) {
+            return phoneLogService.findByKeyword(keyword);
+        }
+        return phoneLogService.getAllPhoneLogs();
     }
 
 

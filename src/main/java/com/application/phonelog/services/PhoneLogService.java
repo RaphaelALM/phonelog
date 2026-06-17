@@ -35,4 +35,6 @@ public class PhoneLogService {
     public void deleteLog(Long id) {
         phoneLogRepository.deleteById(id);
     }
+
+
 }
