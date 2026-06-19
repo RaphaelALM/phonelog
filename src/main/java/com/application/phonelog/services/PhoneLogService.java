@@ -34,8 +34,8 @@ public class PhoneLogService {
         return phoneLogRepository.findById(id).orElseThrow();
     }
 
-    public void addPhoneLog(PhoneLog phoneLog){
-        phoneLogRepository.save(phoneLog);
+    public PhoneLog addPhoneLog(PhoneLog phoneLog){
+        return phoneLogRepository.save(phoneLog);
     }
 
     public void deleteLog(Long id) {

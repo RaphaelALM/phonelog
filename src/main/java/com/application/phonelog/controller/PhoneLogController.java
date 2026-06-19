@@ -98,20 +98,11 @@ public class PhoneLogController {
             return "newlog";
         }
 
-
         phoneLog.setEntryDate(Instant.now());
-        phoneLogService.addPhoneLog(phoneLog);
-        return "redirect:/phonelog/" + phoneLog.getId();
+        PhoneLog saved = phoneLogService.addPhoneLog(phoneLog);
+        return "redirect:/phonelog/" + saved.getId();
     }
 
-//    @PostMapping
-//    public String addPhoneLog(@RequestParam LocalDate callDate, @RequestParam LocalTime callTime, @RequestParam String phoneNumber, @RequestParam String companyName,
-//                              @RequestParam String callerName, @RequestParam String recipient, @RequestParam String description, @RequestParam String receiver){
-//        PhoneLog phoneLog = new PhoneLog(null, callDate, callTime, phoneNumber, companyName, callerName, recipient, description, receiver, Instant.now());
-//
-//        phoneLogService.addPhoneLog(phoneLog);
-//        return "redirect:/phonelog";
-//    }
 
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model){

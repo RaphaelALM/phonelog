@@ -16,7 +16,7 @@ import java.util.Objects;
 public class PhoneLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -50,7 +50,7 @@ public class PhoneLog {
     private String recipient;
 
     @NotBlank(message = "必須項目です。")
-    @Column(name = "reason")
+    @Column(columnDefinition = "TEXT", name = "reason")
     private String description;
 
     @NotBlank(message = "必須項目です。")
