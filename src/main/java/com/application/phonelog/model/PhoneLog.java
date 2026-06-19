@@ -3,6 +3,7 @@ package com.application.phonelog.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
@@ -19,40 +20,44 @@ public class PhoneLog {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @NotNull(message = "日付を入力してください")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "telp_date")
     private LocalDate callDate;
 
-    @NotNull
+    @NotNull(message = "時間を入力してください")
     @Column(name = "telp_time")
     private LocalTime callTime;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
+    @Pattern(
+            regexp = "^$|^[0-9-]+$",
+            message = "電話番号は数字のみ入力してください"
+    )
     @Column(name = "telp_no")
     private String phoneNumber;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
     @Column(name = "company")
     private String companyName;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
     @Column(name = "caller")
     private String callerName;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
     @Column(name = "callee")
     private String recipient;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
     @Column(name = "reason")
     private String description;
 
-    @NotBlank
+    @NotBlank(message = "必須項目です。")
     @Column(name = "taken_by")
     private String receiver;
 
-    @NotNull
+//    @NotNull
     @Column(name = "created_date")
     private Instant entryDate;
 

@@ -17,7 +17,13 @@ public class PhoneLogService {
     }
 
     public List<PhoneLog> getAllPhoneLogs(){
-        return phoneLogRepository.findAll(Sort.by("callDate").descending());
+        return phoneLogRepository.findAll(
+                Sort.by(
+                    Sort.Order.desc("callDate"),
+                    Sort.Order.desc("callTime"),
+                    Sort.Order.asc("companyName")
+                )
+        );
     }
 
     public List<PhoneLog> findByKeyword(String keyword){

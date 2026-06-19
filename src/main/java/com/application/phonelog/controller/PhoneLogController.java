@@ -3,15 +3,15 @@ package com.application.phonelog.controller;
 
 import com.application.phonelog.model.PhoneLog;
 import com.application.phonelog.services.PhoneLogService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -76,23 +76,42 @@ public class PhoneLogController {
     @GetMapping(value = "/{id}")
     public String getPhoneLogById(Model model, @PathVariable Long id){
         PhoneLog phonelog = phoneLogService.getPhoneLogById(id);
-        model.addAttribute("phonelogdetailed", phonelog);
+        model.addAttribute("phoneLog", phonelog);
         return "phonelogdetailed";
     }
 
     @GetMapping("/newlog")
-    public String showAddForm(){
-        return "addphonelog.html";
-    }
+    public String showAddForm(Model model) {
 
+        PhoneLog phoneLog = new PhoneLog();
+
+        phoneLog.setCallDate(LocalDate.now());
+        phoneLog.setCallTime(LocalTime.now());
+
+        model.addAttribute("phoneLog", phoneLog);
+        return "newlog";
+    }
     @PostMapping
-    public String addPhoneLog(@RequestParam LocalDate callDate, @RequestParam LocalTime callTime, @RequestParam String phoneNumber, @RequestParam String companyName,
-                              @RequestParam String callerName, @RequestParam String recipient, @RequestParam String description, @RequestParam String receiver){
-        PhoneLog phoneLog = new PhoneLog(null, callDate, callTime, phoneNumber, companyName, callerName, recipient, description, receiver, Instant.now());
+    public String addPhoneLog(@Valid @ModelAttribute PhoneLog phoneLog, BindingResult result){
 
+        if (result.hasErrors()){
+            return "newlog";
+        }
+
+
+        phoneLog.setEntryDate(Instant.now());
         phoneLogService.addPhoneLog(phoneLog);
-        return "redirect:/phonelog";
+        return "redirect:/phonelog/" + phoneLog.getId();
     }
+
+//    @PostMapping
+//    public String addPhoneLog(@RequestParam LocalDate callDate, @RequestParam LocalTime callTime, @RequestParam String phoneNumber, @RequestParam String companyName,
+//                              @RequestParam String callerName, @RequestParam String recipient, @RequestParam String description, @RequestParam String receiver){
+//        PhoneLog phoneLog = new PhoneLog(null, callDate, callTime, phoneNumber, companyName, callerName, recipient, description, receiver, Instant.now());
+//
+//        phoneLogService.addPhoneLog(phoneLog);
+//        return "redirect:/phonelog";
+//    }
 
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model){
@@ -105,7 +124,15 @@ public class PhoneLogController {
     }
 
     @PostMapping("/update")
-    public String updateLog(@ModelAttribute PhoneLog phoneLog) {
+    public String updateLog(@Valid @ModelAttribute PhoneLog phoneLog, BindingResult result) {
+
+        if (result.hasErrors()){
+            return "edit";
+        }
+
+        if (phoneLog.getId() == null) {
+            throw new IllegalArgumentException("ID存在していません.");
+        }
 
         PhoneLog existing = phoneLogService.getPhoneLogById(phoneLog.getId());
 
@@ -113,10 +140,10 @@ public class PhoneLogController {
 
         phoneLogService.addPhoneLog(phoneLog);
 
-        return "redirect:/phonelog";
+        return "redirect:/phonelog/" + phoneLog.getId();
     }
 
-    @GetMapping("/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String deleteLog(@PathVariable Long id){
         phoneLogService.deleteLog(id);
         return "redirect:/phonelog";

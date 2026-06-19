@@ -43,35 +43,34 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" th:href="@{/phonelog}">Home</a>
-                <a class="nav-link" th:href="@{/phonelog/newlog}">Add</a>
-                <a class="nav-link" th:href="@{/phonelog/1}">test</a>
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/phonelog}">ホーム</a>
+                <a class="nav-link" th:href="@{/phonelog/newlog}">新規登録</a>
             </div>
 
         </div>
     </div>
 </nav>
         <br>
-            <h1>履歴</h1>
+            <h1></h1>
         <br>
 
 <!--        search bar -->
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" name="keyword" th:value="${keyword}"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    <a class="btn btn-outline-secondary" th:href="@{/phonelog}">Reset</a>
+                    <label>
+                        <input class="form-control me-2" type="search" placeholder="例：社長" name="keyword" th:value="${keyword}"/>
+                    </label>
+                    <button class="btn btn-outline-success" type="submit">検索</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/phonelog}">リセット</a>
 
                 </form>
                 <a th:href="@{/phonelog/export(keyword=${keyword})}" class="btn btn-outline-info">
-                    ダウンロード
+                    CSV ダウンロード
                 </a>
             </div>
         </nav>
-        <br>
-
+        <br
 
 
         <div>
@@ -99,7 +98,12 @@
                             </td>
                             <td>
                                 <a th:href="@{/phonelog/{id}/edit(id=${log.id})}" class="btn btn-outline-primary">更新</a>
-                                <a th:href="@{/phonelog/{id}/delete(id=${log.id})}" class="btn btn-outline-danger">削除</a>
+                                <form th:action="@{/phonelog/{id}/delete(id=${log.id})}" method="post" style="display: inline">
+                                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('削除しますか？');">
+                                        削除
+                                    </button>
+                                </form>
+
                             </td>
                         </tr>
                     </th:block>
