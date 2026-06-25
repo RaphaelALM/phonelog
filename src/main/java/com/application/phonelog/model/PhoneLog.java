@@ -1,9 +1,7 @@
 package com.application.phonelog.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
@@ -26,9 +24,11 @@ public class PhoneLog {
     private LocalDate callDate;
 
     @NotNull(message = "時間を入力してください")
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(name = "telp_time")
     private LocalTime callTime;
 
+    @Size(min = 10, max = 50, message = "電話番号は10桁以上50桁以下の数字")
     @NotBlank(message = "必須項目です。")
     @Pattern(
             regexp = "^$|^[0-9-]+$",
@@ -37,22 +37,27 @@ public class PhoneLog {
     @Column(name = "telp_no")
     private String phoneNumber;
 
+    @Size(max = 50, message = "50文字以内")
     @NotBlank(message = "必須項目です。")
     @Column(name = "company")
     private String companyName;
 
+    @Size(max = 50, message = "50文字以内")
     @NotBlank(message = "必須項目です。")
     @Column(name = "caller")
     private String callerName;
 
+    @Size(max = 50, message = "50文字以内")
     @NotBlank(message = "必須項目です。")
     @Column(name = "callee")
     private String recipient;
 
+    @Size(max = 50, message = "500文字以内")
     @NotBlank(message = "必須項目です。")
     @Column(columnDefinition = "TEXT", name = "reason")
     private String description;
 
+    @Size(max = 50, message = "50文字以内")
     @NotBlank(message = "必須項目です。")
     @Column(name = "taken_by")
     private String receiver;

@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
-                                "/register",
+                                "/alphalogo.svg",
                                 "/css/**",
                                 "/js/**"
                         ).permitAll()

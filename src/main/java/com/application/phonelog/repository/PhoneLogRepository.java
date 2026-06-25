@@ -11,17 +11,19 @@ import java.util.List;
 @Repository
 public interface PhoneLogRepository extends JpaRepository<PhoneLog, Long> {
 
-    @Query(value = """
-                SELECT p
-                FROM PhoneLog p
-                WHERE LOWER(p.companyName) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                   OR LOWER(p.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                   OR LOWER(p.callerName) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                   OR LOWER(p.recipient) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                   OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                   OR LOWER(p.receiver) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                ORDER BY p.callDate DESC, p.callTime DESC
-            """)
+    @Query(value = """  
+        SELECT *
+        FROM test_log p
+        WHERE LOWER(p.company) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(p.telp_no) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(p.caller) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(p.callee) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(p.reason) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR LOWER(p.taken_by) LIKE LOWER(CONCAT('%', :keyword, '%'))
+           OR TO_CHAR(p.telp_date, 'YYYY-MM-DD') LIKE CONCAT('%', :keyword, '%')
+           OR TO_CHAR(p.telp_time, 'HH24:MI') LIKE CONCAT('%', :keyword, '%')
+        ORDER BY p.telp_date DESC, p.telp_time DESC
+        """, nativeQuery = true)
 
      List<PhoneLog> search(@Param("keyword") String keyword);
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Phone log </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+
+
+</style>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/phonelog}">
+      <img src="/alphalogo.svg" alt="Logo"  class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link " aria-current="page" th:href="@{/phonelog}">ホーム</a>
+        <a class="nav-link" th:href="@{/phonelog/newlog}">新規登録</a>
+      </div>
+      <form th:action="@{/logout}" method="post" class="ms-auto" onclick="return confirm('ログアウトしますか？');">
+        <button type="submit" class="btn btn-outline-danger">
+          Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+
+  <div class="card shadow-lg border-danger" style="max-width: 600px; width: 100%;">
+    <div class="card-header bg-danger text-white text-center">
+      <h3 class="mb-0">⚠ エラー</h3>
+    </div>
+
+    <div class="card-body text-center p-4">
+      <h2 class="card-title mb-3" th:text="${errorTitle}">
+      </h2>
+
+      <p class="card-text fs-5 text-secondary"
+         th:text="${errorMessage}">
+
+      </p>
+
+      <div class="mt-4">
+        <a class="btn btn-outline-secondary"
+           th:href="@{/phonelog}">
+          ホームへ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

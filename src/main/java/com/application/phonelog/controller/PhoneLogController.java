@@ -4,6 +4,8 @@ package com.application.phonelog.controller;
 import com.application.phonelog.model.PhoneLog;
 import com.application.phonelog.services.PhoneLogService;
 import jakarta.validation.Valid;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -40,27 +43,38 @@ public class PhoneLogController {
 
     // CSV File
     @GetMapping("/export")
-    public ResponseEntity<byte[]> exportCsv(@RequestParam(required = false) String keyword) throws IOException {
+    public ResponseEntity<byte[]> exportCsv(
+            @RequestParam(required = false) String keyword) throws IOException {
 
         List<PhoneLog> logs = getPhoneLogs(keyword);
 
-        StringBuilder csv = new StringBuilder();
+        StringWriter writer = new StringWriter();
 
-        // for Excel to identify UTF-8 correctly
-        csv.append("\uFEFF");
-        csv.append("ID,日付,時間,会社名,電話番号,名前,誰宛,内容,受けた人,入力日時\n");
+        // BOM para Excel reconhecer UTF-8
+        writer.write('\uFEFF');
 
-        for (PhoneLog log : logs) {
-            csv.append(log.getId()).append(",");
-            csv.append(log.getCallDate()).append(",");
-            csv.append(log.getCallTime()).append(",");
-            csv.append(log.getCompanyName()).append(",");
-            csv.append(log.getPhoneNumber()).append(",");
-            csv.append(log.getCallerName()).append(",");
-            csv.append(log.getRecipient()).append(",");
-            csv.append(log.getDescription().replaceAll("\\R", " ")).append(",");
-            csv.append(log.getReceiver()).append(",");
-            csv.append(log.getEntryDate()).append("\n");
+        try (CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+
+            printer.printRecord(
+                    "ID", "日付", "時間", "会社名",
+                    "電話番号", "名前", "誰宛",
+                    "内容", "受けた人", "入力日時"
+            );
+
+            for (PhoneLog log : logs) {
+                printer.printRecord(
+                        log.getId(),
+                        log.getCallDate(),
+                        log.getCallTime(),
+                        log.getCompanyName(),
+                        log.getPhoneNumber(),
+                        log.getCallerName(),
+                        log.getRecipient(),
+                        log.getDescription(),
+                        log.getReceiver(),
+                        log.getEntryDate()
+                );
+            }
         }
 
         return ResponseEntity.ok()
@@ -69,7 +83,7 @@ public class PhoneLogController {
                         "attachment; filename=phonelogs.csv"
                 )
                 .contentType(MediaType.parseMediaType("text/csv; charset=UTF-8"))
-                .body(csv.toString().getBytes(StandardCharsets.UTF_8));
+                .body(writer.toString().getBytes(StandardCharsets.UTF_8));
     }
 
 
@@ -107,8 +121,6 @@ public class PhoneLogController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model){
         PhoneLog phoneLog = phoneLogService.getPhoneLogById(id);
-
-        System.out.println("CALLDATE = " + phoneLog.getCallDate());
 
         model.addAttribute("phoneLog", phoneLog);
         return "edit";

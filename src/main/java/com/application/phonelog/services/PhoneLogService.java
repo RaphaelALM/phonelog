@@ -1,5 +1,6 @@
 package com.application.phonelog.services;
 
+import com.application.phonelog.exeptions.PhoneLogNotFoundException;
 import com.application.phonelog.model.PhoneLog;
 import com.application.phonelog.repository.PhoneLogRepository;
 import org.springframework.data.domain.Sort;
@@ -31,7 +32,7 @@ public class PhoneLogService {
     }
 
     public PhoneLog getPhoneLogById(long id){
-        return phoneLogRepository.findById(id).orElseThrow();
+        return phoneLogRepository.findById(id).orElseThrow(() -> new PhoneLogNotFoundException(id));
     }
 
     public PhoneLog addPhoneLog(PhoneLog phoneLog){
@@ -39,7 +40,7 @@ public class PhoneLogService {
     }
 
     public void deleteLog(Long id) {
-        phoneLogRepository.deleteById(id);
+         phoneLogRepository.deleteById(id);
     }
 
 
