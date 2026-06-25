@@ -27,6 +27,7 @@
         <a class="nav-link " aria-current="page" th:href="@{/phonelog}">ホーム</a>
         <a class="nav-link" th:href="@{/phonelog/newlog}">新規登録</a>
       </div>
+      <span th:text="${username}"></span>
       <form th:action="@{/logout}" method="post" class="ms-auto" onclick="return confirm('ログアウトしますか？');">
         <button type="submit" class="btn btn-outline-danger">
           Logout
