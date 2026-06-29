@@ -6,6 +6,7 @@ import com.application.phonelog.services.PhoneLogService;
 import jakarta.validation.Valid;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,16 @@ public class PhoneLogController {
 
     // Get phone logs
     @GetMapping
-    public String getPhoneLogs(@RequestParam(required = false) String keyword, Model model){
+    public String getPhoneLogs(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            Model model){
 
-        model.addAttribute("phonelogs", getPhoneLogs(keyword));
+        Page<PhoneLog> phoneLogs = getPhoneLogs(keyword, page);
+
+        model.addAttribute("phoneLogs", phoneLogs);
         model.addAttribute("keyword", keyword);
+
         return "phonelogs";
     }
 
@@ -46,7 +53,7 @@ public class PhoneLogController {
     public ResponseEntity<byte[]> exportCsv(
             @RequestParam(required = false) String keyword) throws IOException {
 
-        List<PhoneLog> logs = getPhoneLogs(keyword);
+        List<PhoneLog> logs = getPhoneLogsForCsv(keyword);
 
         StringWriter writer = new StringWriter();
 
@@ -154,11 +161,20 @@ public class PhoneLogController {
 
 
     // Check keyword and get list function
-    private List<PhoneLog> getPhoneLogs(String keyword){
+    private Page<PhoneLog> getPhoneLogs(String keyword, int page){
+
         if (keyword != null && !keyword.isBlank()) {
-            return phoneLogService.findByKeyword(keyword);
+            return phoneLogService.findByKeyword(keyword, page);
         }
-        return phoneLogService.getAllPhoneLogs();
+
+        return phoneLogService.getAllPhoneLogs(page);
+    }
+
+    private List<PhoneLog> getPhoneLogsForCsv(String keyword) {
+        if (keyword != null && !keyword.isBlank()) {
+            return phoneLogService.findByKeywordForCsv(keyword);
+        }
+        return phoneLogService.getAllPhoneLogsForCsv();
     }
 
 

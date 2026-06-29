@@ -73,7 +73,9 @@
 <!--        search bar -->
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <form class="d-flex" role="search">
+                <form class="d-flex"
+                      th:action="@{/phonelog}"
+                      method="get">
                     <label>
                         <input class="form-control me-2" type="search" placeholder="例：社長" name="keyword" th:value="${keyword}"/>
                     </label>
@@ -102,7 +104,7 @@
                         <th>操作</th>
 
                     </tr>
-                    <th:block th:each="log : ${phonelogs}">
+                    <th:block th:each="log : ${phoneLogs.content}">
                         <tr>
                             <td th:text="${log.callDate + ' (' + log.callTime} + ')'"></td>
                             <td th:text="${log.companyName}"></td>
@@ -127,5 +129,41 @@
             </div>
         </div>
 
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item"
+            th:classappend="${phoneLogs.first} ? 'disabled'">
+
+            <a class="page-link"
+               th:href="@{/phonelog(page=${phoneLogs.number-1}, keyword=${keyword})}">
+                <
+            </a>
+
+        </li>
+
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(0, phoneLogs.totalPages-1)}"
+            th:classappend="${i == phoneLogs.number} ? 'active'">
+
+            <a class="page-link"
+               th:href="@{/phonelog(page=${i}, keyword=${keyword})}"
+               th:text="${i+1}">
+            </a>
+
+        </li>
+
+        <li class="page-item"
+            th:classappend="${phoneLogs.last} ? 'disabled'">
+
+            <a class="page-link"
+               th:href="@{/phonelog(page=${phoneLogs.number+1}, keyword=${keyword})}">
+                >
+            </a>
+
+        </li>
+
+    </ul>
+</nav>
 </body>
 </html>
